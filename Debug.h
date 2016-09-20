@@ -10,17 +10,6 @@ enum DEBUG_STATE {
     LOG
 };
 
-// Think about this maybe
-// enum DEBUG_TYPE {
-//     NOT_SPECIFIED,
-//     WIFI,
-//     LIGHT_CONTROL,
-//     DEVICE_CONTROL,
-//     FILE_SYSTEM,
-//     CRITICAL
-// };
-// template <class U>  void Print(DEBUG_TYPE debug_type = NOT_SPECIFIED, const U &x)
-
 class Debug {
 
   private:
@@ -75,72 +64,22 @@ class Debug {
         }
     }
 
-    template <class T, class U>
-    void Printf(const T &x, const U &y)
+    template<typename... Args>
+    void Printf(const char *s, Args... args)
     {
         switch (_debugState) {
             case SERIAL_OUT:
-                Serial.printf(x, y);
+                Serial.printf(s, args...);
                 break;
             case LOG:
                 openLog("a");
-                _log.printf(x, y);
+                _log.printf(s, args...);
                 closeLog();
                 break;
             default:
                 break;
         }
-    }
 
-    template <class T, class U, class V>
-    void Printf(const T &x, const U &y, const V &z)
-    {
-        switch (_debugState) {
-            case SERIAL_OUT:
-                Serial.printf(x, y, z);
-                break;
-            case LOG:
-                openLog("a");
-                _log.printf(x, y, z);
-                closeLog();
-                break;
-            default:
-                break;
-        }
-    }
-
-    template <class S, class T, class U, class V>
-    void Printf(const S &w, const T &x, const U &y, const V &z)
-    {
-        switch (_debugState) {
-            case SERIAL_OUT:
-                Serial.printf(w, x, y, z);
-                break;
-            case LOG:
-                openLog("a");
-                _log.printf(w, x, y, z);
-                closeLog();
-                break;
-            default:
-                break;
-        }
-    }
-
-    template <class A, class B, class C, class D, class E>
-    void Printf(const A &v, const B &w, const C &x, const D &y, const E &z)
-    {
-        switch (_debugState) {
-            case SERIAL_OUT:
-                Serial.printf(v, w, x, y, z);
-                break;
-            case LOG:
-                openLog("a");
-                _log.printf(v, w, x, y, z);
-                closeLog();
-                break;
-            default:
-                break;
-        }
     }
 };
 
